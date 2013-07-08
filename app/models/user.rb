@@ -1,3 +1,18 @@
+require 'bcrypt'
 class User < ActiveRecord::Base
-  #TODO : Use bcrypt to store hashed passwords and authenticate users
+  attr_reader :entered_password
+  validates :username, uniqueness: true
+  validates :entered_password, :length => { minimum: 6 }
+
+  include BCrypt
+
+  def password
+    @password ||= Password.new(password_hash)
+  end
+
+  def password=(new_password)
+    @entered_password = new_password
+    @password = Password.create(new_password)
+    self.password_hash = @password
+  end
 end
