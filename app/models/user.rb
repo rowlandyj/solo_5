@@ -1,7 +1,7 @@
 require 'bcrypt'
 class User < ActiveRecord::Base
-  attr_reader :entered_password
-  validates :username, uniqueness: true
+  attr_reader :entered_password, :name
+  validates :name, uniqueness: true
   validates :entered_password, :length => { minimum: 6 }
 
   include BCrypt
